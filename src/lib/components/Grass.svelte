@@ -5,25 +5,28 @@
 	import fragmentShader from '$lib/shaders/fragmentShader.glsl?raw';
 	import vertexShader from '$lib/shaders/vertexShader.glsl?raw';
 
-	const uniforms = {
-		color: { value: new Color('#7CFC00') },
-		density: { value: 100 },
-		shellIndex: { value: 0 }
-	};
-
 	const commonRotationX = -Math.PI / 2;
 
-	const shellCount = 16;
-	const shellPadding = 0.005;
+	const shellCount = 256;
+	const shellLength = 0.05;
+
+	const uniforms = {
+		color: { value: new Color('#7CFC00') },
+		density: { value: 256 },
+		shellCount: { value: shellCount },
+		shellIndex: { value: 0 },
+		shellLength: { value: shellLength }
+	};
 </script>
 
-{#each Array(shellCount) as _, i}
-	<T.Mesh position.y={shellPadding * i} rotation.x={commonRotationX}>
+{#each Array(shellCount) as _, shellIndex}
+	<T.Mesh rotation.x={commonRotationX}>
+		<!-- <T.SphereGeometry /> -->
 		<T.PlaneGeometry />
 		<T.ShaderMaterial
 			{fragmentShader}
 			{vertexShader}
-			uniforms={{ ...uniforms, shellIndex: { value: i } }}
+			uniforms={{ ...uniforms, shellIndex: { value: shellIndex + 1 } }}
 		/>
 	</T.Mesh>
 {/each}

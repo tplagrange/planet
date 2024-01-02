@@ -2,26 +2,35 @@ precision mediump float;
 
 uniform vec3 color;
 uniform float density;
+
+uniform float shellCount;
 uniform float shellIndex;
 
 // from vertex shader
 varying vec2 texCoords;
 
-float rand(vec2 co){
-  return fract(sin(dot(co,vec2(12.9898,78.233)))*43758.5453);
+// https://www.shadertoy.com/view/flX3R2
+float hash(uint seed){
+  seed=(seed<<13)^seed;
+  float t=float((seed*(seed*seed*15731u+789221u)+1376312589u)&0x7fffffffu);
+  return 1.-(t/1073741824.);
 }
 
 void main(){
-  float threshHold=.06;
+  float noiseMin=0.;
+  float noiseMax=1.;
+  float thickness=3.53;
   
-  uint flooredX=uint(texCoords.x*density);
-  uint flooredY=uint(texCoords.y*density);
+  vec2 newUV=texCoords*density;
   
-  float r=rand(vec2(flooredX,flooredY));
-  float height=shellIndex*threshHold;
-  if(r>height){
-    gl_FragColor=vec4(color,1.)*height;
-  }else{
-    discard;
-  }
+  uint seed=uint(newUV.x)*uint(newUV.y);
+  float rand=mix(noiseMin,noiseMax,hash(seed));
+  
+  float height=shellIndex/shellCount;
+  bool shouldDiscard=rand<height;
+  
+  if(shouldDiscard)discard;
+  
+  gl_FragColor=vec4(color,1.)*height;
+  
 }

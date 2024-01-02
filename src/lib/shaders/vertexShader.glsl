@@ -1,11 +1,19 @@
+precision mediump float;
+
+uniform float shellCount;
+uniform float shellIndex;
+uniform float shellLength;
+
 varying vec2 texCoords;
 
-// applied to every vertex - good for updating shape of mesh
-
-// no-op
 void main(){
   texCoords=uv;
   
-  vec4 modelViewPosition=modelViewMatrix*vec4(position,1.);
-  gl_Position=projectionMatrix*modelViewPosition;
+  float shellHeight=shellIndex/shellCount;
+  float extrusionScalar=shellHeight*shellLength;
+  vec3 extrudedPosition=position+normal*extrusionScalar;
+  
+  vec4 modelViewPosition=modelViewMatrix*vec4(extrudedPosition,1.);// Transform extruded position to view space
+  gl_Position=projectionMatrix*modelViewPosition;// Then transform to clip space
+  
 }
