@@ -12,17 +12,18 @@
 	};
 
 	const commonRotationX = -Math.PI / 2;
+
+	const shellCount = 16;
 	const shellPadding = 0.01;
 </script>
 
-<T.Mesh rotation.x={commonRotationX}>
-	<T.PlaneGeometry />
-	<!-- <T.MeshStandardMaterial color="lawngreen" /> -->
-	<T.ShaderMaterial {fragmentShader} {vertexShader} {uniforms} />
-</T.Mesh>
-
-<T.Mesh position.y={shellPadding} rotation.x={commonRotationX}>
-	<T.PlaneGeometry />
-	<!-- <T.MeshStandardMaterial color="lawngreen" /> -->
-	<T.ShaderMaterial {fragmentShader} {vertexShader} {uniforms} />
-</T.Mesh>
+{#each Array(shellCount) as _, i}
+	<T.Mesh position.y={shellPadding * i} rotation.x={commonRotationX}>
+		<T.PlaneGeometry />
+		<T.ShaderMaterial
+			{fragmentShader}
+			{vertexShader}
+			uniforms={{ shellIndex: { value: i }, ...uniforms }}
+		/>
+	</T.Mesh>
+{/each}

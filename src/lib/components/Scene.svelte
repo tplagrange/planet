@@ -4,7 +4,7 @@
 	import Grass from './Grass.svelte';
 </script>
 
-<T.PerspectiveCamera makeDefault position={[-5, 5, 5]} fov={15}>
+<T.PerspectiveCamera makeDefault position={[-2.5, 2.5, 2.5]} fov={15}>
 	<OrbitControls autoRotate={false} enableDamping autoRotateSpeed={0.5} />
 </T.PerspectiveCamera>
 
