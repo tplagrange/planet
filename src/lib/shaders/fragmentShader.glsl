@@ -1,7 +1,6 @@
 precision mediump float;
 
-uniform vec3 colorA;
-uniform vec3 colorB;
+uniform vec3 color;
 uniform float density;
 uniform float shellIndex;
 
@@ -23,8 +22,8 @@ void main(){
   float r=rand(vec2(flooredX,flooredY));// [0, 1]
   float height=shellIndex*threshHold;
   if(r>height){
-    gl_FragColor=vec4(colorA,1.);
+    gl_FragColor=vec4(color,1.);
   }else{
-    gl_FragColor=vec4(colorB,1.);
+    discard;
   }
 }

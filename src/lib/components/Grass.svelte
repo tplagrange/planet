@@ -6,9 +6,9 @@
 	import vertexShader from '$lib/shaders/vertexShader.glsl?raw';
 
 	const uniforms = {
-		colorA: { value: new Color('#7CFC00') },
-		colorB: { value: new Color('#000000') },
-		density: { value: 100 }
+		color: { value: new Color('#7CFC00') },
+		density: { value: 100 },
+		shellIndex: { value: 0 }
 	};
 
 	const commonRotationX = -Math.PI / 2;
@@ -23,7 +23,7 @@
 		<T.ShaderMaterial
 			{fragmentShader}
 			{vertexShader}
-			uniforms={{ shellIndex: { value: i }, ...uniforms }}
+			uniforms={{ ...uniforms, shellIndex: { value: i } }}
 		/>
 	</T.Mesh>
 {/each}
