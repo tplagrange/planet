@@ -19,17 +19,19 @@ float hash(uint seed){
 void main(){
   float noiseMin=0.;
   float noiseMax=1.;
-  float thickness=3.53;
+  float thickness=20.;
   
   vec2 newUV=texCoords*density;
+  vec2 localUV=fract(newUV)*2.-1.;
+  float localDistanceFromCenter=length(localUV);
   
   uint seed=uint(newUV.x)*uint(newUV.y);
   float rand=mix(noiseMin,noiseMax,hash(seed));
   
   float height=shellIndex/shellCount;
-  bool shouldDiscard=rand<height;
+  bool outsideThickness=(localDistanceFromCenter)>(thickness*(rand-height));
   
-  if(shouldDiscard)discard;
+  if(outsideThickness&&(shellIndex>1.))discard;
   
   gl_FragColor=vec4(color,1.)*height;
   

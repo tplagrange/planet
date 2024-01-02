@@ -7,12 +7,12 @@
 
 	const commonRotationX = -Math.PI / 2;
 
-	const shellCount = 256;
+	const shellCount = 128;
 	const shellLength = 0.05;
 
 	const uniforms = {
 		color: { value: new Color('#7CFC00') },
-		density: { value: 256 },
+		density: { value: 1024 },
 		shellCount: { value: shellCount },
 		shellIndex: { value: 0 },
 		shellLength: { value: shellLength }
