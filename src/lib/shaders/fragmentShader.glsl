@@ -14,15 +14,13 @@ float rand(vec2 co){
 void main(){
   float threshHold=.06;
   
-  // given uv
-  // clamp it to a value between [0, 1]
-  uint flooredX=uint(texCoords.x*density);// [0, D]
-  uint flooredY=uint(texCoords.y*density);// [0, D]
+  uint flooredX=uint(texCoords.x*density);
+  uint flooredY=uint(texCoords.y*density);
   
-  float r=rand(vec2(flooredX,flooredY));// [0, 1]
+  float r=rand(vec2(flooredX,flooredY));
   float height=shellIndex*threshHold;
   if(r>height){
-    gl_FragColor=vec4(color,1.);
+    gl_FragColor=vec4(color,1.)*height;
   }else{
     discard;
   }

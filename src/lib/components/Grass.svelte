@@ -14,7 +14,7 @@
 	const commonRotationX = -Math.PI / 2;
 
 	const shellCount = 16;
-	const shellPadding = 0.01;
+	const shellPadding = 0.005;
 </script>
 
 {#each Array(shellCount) as _, i}
