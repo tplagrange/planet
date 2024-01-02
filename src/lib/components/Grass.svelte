@@ -17,12 +17,17 @@
 		shellIndex: { value: 0 },
 		shellLength: { value: shellLength }
 	};
+
+	const isSphere = true;
 </script>
 
 {#each Array(shellCount) as _, shellIndex}
 	<T.Mesh rotation.x={commonRotationX}>
-		<!-- <T.SphereGeometry /> -->
-		<T.PlaneGeometry />
+		{#if isSphere}
+			<T.SphereGeometry />
+		{:else}
+			<T.PlaneGeometry />
+		{/if}
 		<T.ShaderMaterial
 			{fragmentShader}
 			{vertexShader}
