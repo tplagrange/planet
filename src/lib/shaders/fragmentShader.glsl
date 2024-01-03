@@ -5,8 +5,11 @@ uniform float density;
 
 uniform float shellCount;
 uniform float shellIndex;
+uniform float shellThickness;
 
-// from vertex shader
+uniform float noiseMin;
+uniform float noiseMax;
+
 varying vec2 texCoords;
 
 // https://www.shadertoy.com/view/flX3R2
@@ -17,10 +20,6 @@ float hash(uint seed){
 }
 
 void main(){
-  float noiseMin=0.;
-  float noiseMax=1.;
-  float thickness=20.;
-  
   vec2 newUV=texCoords*density;
   vec2 localUV=fract(newUV)*2.-1.;
   float localDistanceFromCenter=length(localUV);
@@ -29,7 +28,7 @@ void main(){
   float rand=mix(noiseMin,noiseMax,hash(seed));
   
   float height=shellIndex/shellCount;
-  bool outsideThickness=(localDistanceFromCenter)>(thickness*(rand-height));
+  bool outsideThickness=(localDistanceFromCenter)>(shellThickness*(rand-height));
   
   if(outsideThickness&&(shellIndex>1.))discard;
   
