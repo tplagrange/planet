@@ -2,8 +2,8 @@
 	import { T, useTask } from '@threlte/core';
 	import { Color, Vector3 } from 'three';
 
-	import fragmentShader from '$lib/shaders/fragmentShader.glsl?raw';
-	import vertexShader from '$lib/shaders/vertexShader.glsl?raw';
+	import fragmentShader from '$lib/shaders/grass/fragmentShader.glsl?raw';
+	import vertexShader from '$lib/shaders/grass/vertexShader.glsl?raw';
 
 	import type { GrassyGeometryProperties } from '$lib/types/GrassyGeometry';
 
