@@ -13,10 +13,10 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter({
 			fallback: '404.html',
-			pages: 'planet/',
+			pages: process.env.SVELTE_KIT_ADAPTER_PAGES,
 		}),
 		paths: {
-			base: '/planet'
+			base: process.env.BASE_PATH ?? ''
 		}
 	}
 };
