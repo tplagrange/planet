@@ -28,13 +28,13 @@ jobs:
       - name: build
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'
+          SVELTE_KIT_ADAPTER_PAGES: '${{ github.event.repository.name }}/'
         run: |
           pnpm run build
 
       - name: Upload Artifacts
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'
-          SVELTE_KIT_ADAPTER_PAGES: '${{ github.event.repository.name }}/'
         uses: actions/upload-pages-artifact@v2
         with:
           # this should match the `pages` option in your adapter-static options
