@@ -10,7 +10,7 @@ uniform float shellThickness;
 uniform float noiseMin;
 uniform float noiseMax;
 
-uniform vec3 light;
+uniform vec3 lightDirection;
 
 varying vec2 textureCoordinates;
 varying vec3 normals;
@@ -45,7 +45,7 @@ void main(){
   
   if(outsideThickness&&(shellIndex>1.))discard;
   
-  float halfLambert=valveHalfLambert(normals,light);
+  float halfLambert=valveHalfLambert(normals,lightDirection);
   
   gl_FragColor=vec4(color*height*halfLambert,1.);
   
