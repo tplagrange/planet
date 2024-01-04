@@ -10,7 +10,10 @@ uniform float shellThickness;
 uniform float noiseMin;
 uniform float noiseMax;
 
-varying vec2 texCoords;
+uniform vec3 light;
+
+varying vec2 textureCoordinates;
+varying vec3 normals;
 
 // https://www.shadertoy.com/view/flX3R2
 float hash(uint seed){
@@ -19,8 +22,18 @@ float hash(uint seed){
   return 1.-(t/1073741824.);
 }
 
+float dotClamped(vec3 a,vec3 b,float min,float max){
+  float dotProduct=dot(a,b);
+  return clamp(dotProduct,min,max);
+}
+
+float valveHalfLambert(vec3 normals,vec3 light){
+  float normalsDotLight=dotClamped(normals,light,0.,1.)*.5+.5;
+  return normalsDotLight*normalsDotLight;
+}
+
 void main(){
-  vec2 newUV=texCoords*density;
+  vec2 newUV=textureCoordinates*density;
   vec2 localUV=fract(newUV)*2.-1.;
   float localDistanceFromCenter=length(localUV);
   
@@ -32,6 +45,8 @@ void main(){
   
   if(outsideThickness&&(shellIndex>1.))discard;
   
-  gl_FragColor=vec4(color,1.)*height;
+  float halfLambert=valveHalfLambert(normals,light);
+  
+  gl_FragColor=vec4(color*height*halfLambert,1.);
   
 }

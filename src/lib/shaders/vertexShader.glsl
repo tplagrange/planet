@@ -4,10 +4,12 @@ uniform float shellCount;
 uniform float shellIndex;
 uniform float shellLength;
 
-varying vec2 texCoords;
+varying vec2 textureCoordinates;
+varying vec3 normals;
 
 void main(){
-  texCoords=uv;
+  textureCoordinates=uv;
+  normals=normal;
   
   float shellHeight=shellIndex/shellCount;
   float extrusionScalar=shellHeight*shellLength;
