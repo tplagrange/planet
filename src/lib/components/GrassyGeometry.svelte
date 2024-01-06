@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { T, useTask } from '@threlte/core';
-	import { Color, Vector3 } from 'three';
+	import { BoxGeometry, Color, IcosahedronGeometry, Sphere, SphereGeometry, Vector3 } from 'three';
 
 	import fragmentShader from '$lib/shaders/grass/fragmentShader.glsl?raw';
 	import vertexShader from '$lib/shaders/grass/vertexShader.glsl?raw';
