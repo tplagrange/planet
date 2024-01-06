@@ -1,6 +1,20 @@
 <script lang="ts">
 	import { T, useTask } from '@threlte/core';
-	import { BoxGeometry, Color, IcosahedronGeometry, Sphere, SphereGeometry, Vector3 } from 'three';
+	import {
+		AdditiveBlending,
+		BackSide,
+		BoxGeometry,
+		BufferAttribute,
+		CapsuleGeometry,
+		Color,
+		IcosahedronGeometry,
+		PlaneGeometry,
+		ShaderMaterial,
+		Sphere,
+		SphereGeometry,
+		Vector3
+	} from 'three';
+	import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 
 	import fragmentShader from '$lib/shaders/grass/fragmentShader.glsl?raw';
 	import vertexShader from '$lib/shaders/grass/vertexShader.glsl?raw';
@@ -47,21 +61,27 @@
 	}
 
 	const isSphere = true;
+
+	const geometry = new SphereGeometry();
+	const material = new ShaderMaterial({
+		fragmentShader,
+		vertexShader,
+		uniforms,
+		blending: AdditiveBlending,
+		side: BackSide
+	});
+
 	let rotation = 0;
-	useTask((delta) => (rotation += delta * 0.025));
+	// useTask((delta) => (rotation += delta * 0.025));
 </script>
 
 {#each Array(properties.shellCount) as _, shellIndex}
 	<T.Mesh rotation.x={rotation}>
 		{#if isSphere}
-			<T.SphereGeometry />
+			<T is={geometry} />
 		{:else}
 			<T.PlaneGeometry />
 		{/if}
-		<T.ShaderMaterial
-			{fragmentShader}
-			{vertexShader}
-			uniforms={{ ...uniforms, shellIndex: { value: shellIndex + 1 } }}
-		/>
+		<T is={material} />
 	</T.Mesh>
 {/each}
