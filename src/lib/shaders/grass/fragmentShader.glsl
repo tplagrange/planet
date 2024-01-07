@@ -54,45 +54,9 @@ vec4 planeConfig(){
   return finalColor;
 }
 
-float sphericalHash(vec3 coords){
-  // Adjust the hash function for spherical coordinates
-  uint seed=uint(coords.x*43758.5453+coords.y*19395.437+coords.z*8347.235);
-  seed=(seed<<13)^seed;
-  return float((seed*(seed*seed*15731u+789221u)+1376312589u)&0x7fffffffu)/1073741824.;
-}
-
-vec4 sphereConfig(){
-  float latitude=acos(normals.y)/PI;
-  float longitude=(atan(normals.x,normals.z)+PI)/(2.*PI);
-  
-  float adjustedShellThickness=shellThickness*(1.-sin(latitude));
-  float adjustedDensity=density*(1.+sin(latitude));
-  
-  vec3 localSphericalCoordinates=vec3(longitude,latitude,length(normals));
-  
-  vec2 newUV=textureCoordinates*adjustedDensity;
-  vec2 localUV=fract(newUV)*2.-1.;
-  float localDistanceFromCenter=length(localUV);
-  
-  float noise=sphericalHash(localSphericalCoordinates);
-  float rand=mix(noiseMin,noiseMax,noise);
-  
-  float height=shellIndex/shellCount;
-  // bool outsideThickness=(localDistanceFromCenter)>(adjustedShellThickness*(rand-height));
-  
-  // if(outsideThickness&&(shellIndex>1.))discard;
-  if(height<rand)discard;
-  
-  float halfLambert=valveHalfLambert(normals,lightDirection);
-  
-  vec4 finalColor=vec4(color*height*halfLambert,1.);
-  
-  return finalColor;
-}
-
 void main(){
   
-  vec4 finalColor=sphereConfig();
+  vec4 finalColor=planeConfig();
   
   gl_FragColor=finalColor;
   

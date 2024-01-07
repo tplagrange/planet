@@ -63,13 +63,6 @@
 	const isSphere = true;
 
 	const geometry = new SphereGeometry();
-	const material = new ShaderMaterial({
-		fragmentShader,
-		vertexShader,
-		uniforms,
-		blending: AdditiveBlending,
-		side: BackSide
-	});
 
 	let rotation = 0;
 	// useTask((delta) => (rotation += delta * 0.025));
@@ -82,6 +75,10 @@
 		{:else}
 			<T.PlaneGeometry />
 		{/if}
-		<T is={material} />
+		<T.ShaderMaterial
+			{fragmentShader}
+			{vertexShader}
+			uniforms={{ ...uniforms, shellIndex: { value: shellIndex + 1 } }}
+		/>
 	</T.Mesh>
 {/each}
