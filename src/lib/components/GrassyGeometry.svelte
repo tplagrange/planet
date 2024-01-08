@@ -49,12 +49,14 @@
 
 	const geometry = new SphereGeometry();
 
+	const windSpeed = 1;
+
 	let delta = 0;
 	useTask((diff) => (delta += diff));
 </script>
 
 {#each Array(properties.shellCount) as _, shellIndex}
-	<T.Mesh rotation.y={delta * 0.025 * 0}>
+	<T.Mesh rotation.y={delta * 0.025}>
 		{#if isSphere}
 			<T is={geometry} />
 		{:else}
@@ -63,8 +65,12 @@
 		<T.ShaderMaterial
 			{fragmentShader}
 			{vertexShader}
-			uniforms={{ ...defaultUniforms, time: { value: 0 }, shellIndex: { value: shellIndex + 1 } }}
-			uniforms.time.value={delta}
+			uniforms={{
+				...defaultUniforms,
+				time: { value: 0 },
+				shellIndex: { value: shellIndex + 1 }
+			}}
+			uniforms.time.value={delta * windSpeed}
 		/>
 	</T.Mesh>
 {/each}
