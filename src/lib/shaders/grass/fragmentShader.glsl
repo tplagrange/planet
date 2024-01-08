@@ -39,7 +39,7 @@ vec4 planeConfig(){
   vec2 localUV=fract(newUV)*2.-1.;
   float localDistanceFromCenter=length(localUV);
   
-  uint seed=uint(newUV.x)*uint(newUV.y);
+  uint seed=uint(newUV.x+100.)*uint(newUV.y+100.)*10u;
   float rand=mix(noiseMin,noiseMax,hash(seed));
   
   float height=shellIndex/shellCount;
