@@ -65,11 +65,11 @@
 	const geometry = new SphereGeometry();
 
 	let rotation = 0;
-	// useTask((delta) => (rotation += delta * 0.025));
+	useTask((delta) => (rotation += delta * 0.025));
 </script>
 
 {#each Array(properties.shellCount) as _, shellIndex}
-	<T.Mesh rotation.x={rotation}>
+	<T.Mesh rotation.y={rotation}>
 		{#if isSphere}
 			<T is={geometry} />
 		{:else}
