@@ -51,6 +51,13 @@ vec4 planeConfig(){
   
   vec4 finalColor=vec4(color*height*halfLambert,1.);
   
+  float ambientOcclusionAttenuation=1.7;
+  float ambientOcclusionBias=.1;
+  float ambientOcclusion=pow(height,ambientOcclusionAttenuation);
+  ambientOcclusion+=ambientOcclusionBias;
+  ambientOcclusion=clamp(ambientOcclusion,0.,1.);
+  finalColor=finalColor*ambientOcclusion;
+  
   return finalColor;
 }
 
