@@ -59,21 +59,11 @@
 			}
 		});
 	}
-
-	const isSphere = true;
-
-	const geometry = new SphereGeometry();
-
-	const windSpeed = 1;
 </script>
 
 {#each Array(properties.shellCount) as _, shellIndex}
-	<T.Mesh rotation.y={delta * rotationSpeed}>
-		{#if isSphere}
-			<T is={geometry} />
-		{:else}
-			<T.PlaneGeometry />
-		{/if}
+	<T.Mesh rotation.y={delta * rotationSpeed} rotation.z={Math.PI / 12}>
+		<T.SphereGeometry />
 		<T.ShaderMaterial
 			{fragmentShader}
 			{vertexShader}
@@ -81,7 +71,7 @@
 				...defaultUniforms,
 				shellIndex: { value: shellIndex + 1 }
 			}}
-			uniforms.time.value={delta * windSpeed}
+			uniforms.time.value={delta}
 		/>
 	</T.Mesh>
 {/each}
