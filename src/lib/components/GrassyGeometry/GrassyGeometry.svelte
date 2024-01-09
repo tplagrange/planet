@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { T, useTask } from '@threlte/core';
-	import { Color, ShaderMaterial, SphereGeometry, Vector3 } from 'three';
+	import { Color, SphereGeometry, Vector3 } from 'three';
 
 	import fragmentShader from '$lib/shaders/grass/fragmentShader.glsl?raw';
 	import vertexShader from '$lib/shaders/grass/vertexShader.glsl?raw';
@@ -55,10 +55,12 @@
 	const geometry = new SphereGeometry();
 
 	const windSpeed = 1;
+
+	const rotationSpeed = 0.025;
 </script>
 
 {#each Array(properties.shellCount) as _, shellIndex}
-	<T.Mesh rotation.y={delta * 0.025}>
+	<T.Mesh rotation.y={delta * rotationSpeed}>
 		{#if isSphere}
 			<T is={geometry} />
 		{:else}

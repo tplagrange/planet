@@ -112,7 +112,7 @@ vec3 wind(float shellHeight){
   
   float windspeed=.4;
   
-  float noise=pnoise(normals+time*windspeed,vec3(10.));
+  float noise=pnoise(vec3(textureCoordinates,1.)+time*windspeed,vec3(10.));
   
   vec3 _ShellDirection=vec3(noise,noise,0.);
   float _DisplacementStrength=.05;
