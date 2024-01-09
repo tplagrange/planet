@@ -1,5 +1,7 @@
 precision mediump float;
 
+uniform float density;
+
 uniform float shellCount;
 uniform float shellCurvature;
 uniform float shellIndex;
@@ -111,9 +113,10 @@ float pnoise(vec3 P,vec3 rep)
 // END NOISE
 
 vec3 wind(float shellHeight){
-  float noise=pnoise(vec3(textureCoordinates,1.)+time*windSpeed,vec3(10.));
+  float noise=pnoise(vec3(textureCoordinates*density,1.)+time*windSpeed,vec3(10.));
   
-  float latitudinalCorrection=1.-abs((textureCoordinates.y-.5)*2.);// [0, 1] where 0 is a pole
+  float latitudinalAttenuation=1.;
+  float latitudinalCorrection=pow(1.-abs((textureCoordinates.y-.5)*2.),latitudinalAttenuation);// [0, 1] where 0 is a pole
   
   float heightAttenuation=pow(shellHeight,shellCurvature);
   vec3 windDirection=vec3(noise,noise,0.);

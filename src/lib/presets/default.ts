@@ -16,5 +16,5 @@ export const defaultSettings: GrassyGeometrySettings = {
 	'Shell Thickness': 20,
 	Density: 512,
 	'Wind Speed': 0.25,
-	'Wind Strength': 0.05
+	'Wind Strength': 0.1
 };
