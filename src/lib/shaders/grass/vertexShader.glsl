@@ -110,13 +110,12 @@ vec3 wind(float shellHeight){
   float _Curvature=10.;
   float k=pow(shellHeight,_Curvature);
   
-  float windspeed=.5;
+  float windspeed=.4;
   
-  float noise_1=pnoise(position+time*windspeed,vec3(10.));
-  float noise_2=pnoise(position+time*windspeed,vec3(10.));
+  float noise=pnoise(normals+time*windspeed,vec3(10.));
   
-  vec3 _ShellDirection=vec3(noise_2,noise_1,0.);
-  float _DisplacementStrength=.025;
+  vec3 _ShellDirection=vec3(noise,noise,0.);
+  float _DisplacementStrength=.05;
   vec3 windDisplacement=_ShellDirection*k*_DisplacementStrength;
   
   return windDisplacement;

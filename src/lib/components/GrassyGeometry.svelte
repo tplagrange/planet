@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { T, useTask } from '@threlte/core';
-	import { Color, SphereGeometry, Vector3 } from 'three';
+	import { Color, ShaderMaterial, SphereGeometry, Vector3 } from 'three';
 
 	import fragmentShader from '$lib/shaders/grass/fragmentShader.glsl?raw';
 	import vertexShader from '$lib/shaders/grass/vertexShader.glsl?raw';
@@ -9,6 +9,11 @@
 
 	export let properties: GrassyGeometryProperties;
 
+	let delta = 0;
+	useTask((diff) => {
+		delta += diff;
+	});
+
 	let defaultUniforms: Record<string, { value: any }> = {
 		color: { value: new Color(properties.color) },
 		density: { value: properties.density },
@@ -16,9 +21,9 @@
 		noiseMax: { value: properties.noiseMax },
 		noiseMin: { value: properties.noiseMin },
 		shellCount: { value: properties.shellCount },
-		shellIndex: { value: 0 },
 		shellLength: { value: properties.shellLength },
-		shellThickness: { value: properties.shellThickness }
+		shellThickness: { value: properties.shellThickness },
+		time: { value: delta }
 	};
 
 	$: {
@@ -50,9 +55,6 @@
 	const geometry = new SphereGeometry();
 
 	const windSpeed = 1;
-
-	let delta = 0;
-	useTask((diff) => (delta += diff));
 </script>
 
 {#each Array(properties.shellCount) as _, shellIndex}
@@ -67,7 +69,6 @@
 			{vertexShader}
 			uniforms={{
 				...defaultUniforms,
-				time: { value: 0 },
 				shellIndex: { value: shellIndex + 1 }
 			}}
 			uniforms.time.value={delta * windSpeed}
