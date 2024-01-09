@@ -5,8 +5,8 @@
 	import { Vector3 } from 'three';
 
 	import type { GrassyGeometrySettings, GrassyGeometryProperties } from '$lib/types/GrassyGeometry';
-	import { stylizedSettings } from './GrassyGeometry/presets/stylized';
-	import Grass from './GrassyGeometry/GrassyGeometry.svelte';
+	import { stylizedSettings } from '../presets/stylized';
+	import Grass from './GrassyGeometry.svelte';
 
 	const settingsToPropertiesMap: Map<keyof GrassyGeometrySettings, keyof GrassyGeometryProperties> =
 		new Map([
