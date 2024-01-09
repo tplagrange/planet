@@ -113,10 +113,12 @@ float pnoise(vec3 P,vec3 rep)
 vec3 wind(float shellHeight){
   float noise=pnoise(vec3(textureCoordinates,1.)+time*windSpeed,vec3(10.));
   
+  float latitudinalCorrection=1.-abs((textureCoordinates.y-.5)*2.);// [0, 1] where 0 is a pole
+  
   float heightAttenuation=pow(shellHeight,shellCurvature);
   vec3 windDirection=vec3(noise,noise,0.);
   
-  vec3 windDisplacement=windDirection*heightAttenuation*windStrength;
+  vec3 windDisplacement=windDirection*heightAttenuation*windStrength*latitudinalCorrection;
   
   return windDisplacement;
 }
