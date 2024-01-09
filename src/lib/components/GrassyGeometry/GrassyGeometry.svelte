@@ -9,21 +9,31 @@
 
 	export let properties: GrassyGeometryProperties;
 
+	let rotationSpeed = 0;
+	$: {
+		rotationSpeed = properties.rotationSpeed;
+	}
+
 	let delta = 0;
 	useTask((diff) => {
 		delta += diff;
 	});
 
 	let defaultUniforms: Record<string, { value: any }> = {
+		ambientOcclusionAttenuation: { value: properties.ambientOcclusionAttenuation },
+		ambientOcclusionBias: { value: properties.ambientOcclusionBias },
 		color: { value: new Color(properties.color) },
 		density: { value: properties.density },
 		lightDirection: { value: properties.lightDirection },
 		noiseMax: { value: properties.noiseMax },
 		noiseMin: { value: properties.noiseMin },
 		shellCount: { value: properties.shellCount },
+		shellCurvature: { value: properties.shellCurvature },
 		shellLength: { value: properties.shellLength },
 		shellThickness: { value: properties.shellThickness },
-		time: { value: delta }
+		time: { value: delta },
+		windSpeed: { value: properties.windSpeed },
+		windStrength: { value: properties.windStrength }
 	};
 
 	$: {
@@ -55,8 +65,6 @@
 	const geometry = new SphereGeometry();
 
 	const windSpeed = 1;
-
-	const rotationSpeed = 0.025;
 </script>
 
 {#each Array(properties.shellCount) as _, shellIndex}

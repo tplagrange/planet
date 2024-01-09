@@ -10,6 +10,8 @@
 
 	const settingsToPropertiesMap: Map<keyof GrassyGeometrySettings, keyof GrassyGeometryProperties> =
 		new Map([
+			['AO Attenuation', 'ambientOcclusionAttenuation'],
+			['AO Bias', 'ambientOcclusionBias'],
 			['Light Direction X', 'lightDirection'],
 			['Light Direction Y', 'lightDirection'],
 			['Light Direction Z', 'lightDirection'],
@@ -17,9 +19,13 @@
 			['Grass Color', 'color'],
 			['Noise Max', 'noiseMax'],
 			['Noise Min', 'noiseMin'],
+			['Rotation Speed', 'rotationSpeed'],
 			['Shell Count', 'shellCount'],
+			['Shell Curvature', 'shellCurvature'],
 			['Shell Length', 'shellLength'],
-			['Shell Thickness', 'shellThickness']
+			['Shell Thickness', 'shellThickness'],
+			['Wind Speed', 'windSpeed'],
+			['Wind Strength', 'windStrength']
 		]);
 
 	const settingsToProperties = (settings: GrassyGeometrySettings): GrassyGeometryProperties => {
@@ -78,20 +84,29 @@
 			(grassyGeometryProperties as Record<string, any>)[incomingPropertyKey] = value;
 		});
 
+		panel.add(settings, 'Rotation Speed', 0, 1, 0.01);
 		panel.addColor(settings, 'Grass Color');
 		panel.add(settings, 'Density', 1, 2048, 4);
 
-		const shellTexturingFolder = panel.addFolder('Shell Texturing');
-		shellTexturingFolder.add(settings, 'Shell Count', 1, 512, 4);
-		shellTexturingFolder.add(settings, 'Shell Length', 0.01, 1, 0.01);
-		shellTexturingFolder.add(settings, 'Shell Thickness', 1, 50, 1);
-		shellTexturingFolder.add(settings, 'Noise Min', 0, 1, 0.01);
-		shellTexturingFolder.add(settings, 'Noise Max', 0, 1, 0.01);
+		const windFolder = panel.addFolder('Wind');
+		windFolder.add(settings, 'Wind Speed', 0, 1, 0.01);
+		windFolder.add(settings, 'Wind Strength', 0, 1, 0.01);
 
 		const lightingFolder = panel.addFolder('Lighting');
 		lightingFolder.add(settings, 'Light Direction X', -1, 1, 0.01);
 		lightingFolder.add(settings, 'Light Direction Y', -1, 1, 0.01);
 		lightingFolder.add(settings, 'Light Direction Z', -1, 1, 0.01);
+		const ambientOcclusionFolder = lightingFolder.addFolder('Ambient Occlusion');
+		ambientOcclusionFolder.add(settings, 'AO Attenuation', 0, 10, 0.01);
+		ambientOcclusionFolder.add(settings, 'AO Bias', 0, 1, 0.01);
+
+		const shellTexturingFolder = panel.addFolder('Shell Texturing');
+		shellTexturingFolder.add(settings, 'Shell Count', 1, 512, 4);
+		shellTexturingFolder.add(settings, 'Shell Curvature', 0, 100, 0.1);
+		shellTexturingFolder.add(settings, 'Shell Length', 0.01, 1, 0.01);
+		shellTexturingFolder.add(settings, 'Shell Thickness', 1, 50, 1);
+		shellTexturingFolder.add(settings, 'Noise Min', 0, 1, 0.01);
+		shellTexturingFolder.add(settings, 'Noise Max', 0, 1, 0.01);
 	};
 
 	createPanel(defaultSettings);

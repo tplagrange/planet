@@ -1,8 +1,12 @@
 precision mediump float;
 
 uniform float shellCount;
+uniform float shellCurvature;
 uniform float shellIndex;
 uniform float shellLength;
+
+uniform float windSpeed;
+uniform float windStrength;
 
 uniform float time;
 
@@ -107,16 +111,12 @@ float pnoise(vec3 P,vec3 rep)
 // END NOISE
 
 vec3 wind(float shellHeight){
-  float _Curvature=10.;
-  float k=pow(shellHeight,_Curvature);
+  float noise=pnoise(vec3(textureCoordinates,1.)+time*windSpeed,vec3(10.));
   
-  float windspeed=.4;
+  float heightAttenuation=pow(shellHeight,shellCurvature);
+  vec3 windDirection=vec3(noise,noise,0.);
   
-  float noise=pnoise(vec3(textureCoordinates,1.)+time*windspeed,vec3(10.));
-  
-  vec3 _ShellDirection=vec3(noise,noise,0.);
-  float _DisplacementStrength=.05;
-  vec3 windDisplacement=_ShellDirection*k*_DisplacementStrength;
+  vec3 windDisplacement=windDirection*heightAttenuation*windStrength;
   
   return windDisplacement;
 }

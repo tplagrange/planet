@@ -1,6 +1,8 @@
 import type { GrassyGeometrySettings } from '$lib/types/GrassyGeometry';
+import { defaultSettings } from './default';
 
 export const stylizedSettings: GrassyGeometrySettings = {
+	...defaultSettings,
 	'Grass Color': '#49df4b',
 	'Light Direction X': 1,
 	'Light Direction Y': 1,

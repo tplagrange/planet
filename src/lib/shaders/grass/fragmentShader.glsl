@@ -5,6 +5,9 @@ precision mediump float;
 uniform vec3 color;
 uniform float density;
 
+uniform float ambientOcclusionAttenuation;
+uniform float ambientOcclusionBias;
+
 uniform float shellCount;
 uniform float shellIndex;
 uniform float shellThickness;
@@ -51,8 +54,6 @@ vec4 planeConfig(){
   
   vec4 finalColor=vec4(color*height*halfLambert,1.);
   
-  float ambientOcclusionAttenuation=1.5;
-  float ambientOcclusionBias=.1;
   float ambientOcclusion=pow(height,ambientOcclusionAttenuation);
   ambientOcclusion+=ambientOcclusionBias;
   ambientOcclusion=clamp(ambientOcclusion,0.,1.);
