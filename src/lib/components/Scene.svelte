@@ -8,6 +8,7 @@
 	import { stylizedSettings } from '../presets/stylized';
 	import Grass from './GrassyGeometry.svelte';
 	import Atmosphere from './Atmosphere.svelte';
+	import Ring from './Ring.svelte';
 
 	const atmosphereSettingsToPropertiesMap: Map<
 		keyof AtmosphereSettings,
@@ -176,5 +177,6 @@
 	<OrbitControls autoRotate={false} enableDamping autoRotateSpeed={0.5} />
 </T.PerspectiveCamera>
 
+<Ring />
 <Atmosphere properties={atmosphereProperties} />
 <Grass properties={grassyGeometryProperties} />
