@@ -173,7 +173,7 @@
 </script>
 
 <T.PerspectiveCamera makeDefault position={[0, 0, 20]} fov={15}>
-	<OrbitControls autoRotate={false} enableDamping autoRotateSpeed={0.5} />
+	<OrbitControls autoRotate={false} enableDamping />
 </T.PerspectiveCamera>
 
 <Atmosphere properties={atmosphereProperties} />

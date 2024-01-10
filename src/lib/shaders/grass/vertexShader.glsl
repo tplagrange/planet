@@ -1,3 +1,5 @@
+#define PI 3.1415926535897932384626433832795
+
 precision mediump float;
 
 uniform float density;
@@ -112,6 +114,38 @@ float pnoise(vec3 P,vec3 rep)
 }
 // END NOISE
 
+mat2 rotation2d(float angle){
+  float s=sin(angle);
+  float c=cos(angle);
+  
+  return mat2(
+    c,-s,
+    s,c
+  );
+}
+
+mat4 rotation3d(vec3 axis,float angle){
+  axis=normalize(axis);
+  float s=sin(angle);
+  float c=cos(angle);
+  float oc=1.-c;
+  
+  return mat4(
+    oc*axis.x*axis.x+c,oc*axis.x*axis.y-axis.z*s,oc*axis.z*axis.x+axis.y*s,0.,
+    oc*axis.x*axis.y+axis.z*s,oc*axis.y*axis.y+c,oc*axis.y*axis.z-axis.x*s,0.,
+    oc*axis.z*axis.x-axis.y*s,oc*axis.y*axis.z+axis.x*s,oc*axis.z*axis.z+c,0.,
+    0.,0.,0.,1.
+  );
+}
+
+vec2 rotate2D(vec2 v,float angle){
+  return rotation2d(angle)*v;
+}
+
+vec3 rotate3D(vec3 v,vec3 axis,float angle){
+  return(rotation3d(axis,angle)*vec4(v,1.)).xyz;
+}
+
 vec3 wind(float shellHeight){
   float noise=pnoise(vec3(textureCoordinates*density,1.)+time*windSpeed,vec3(10.));
   
@@ -127,13 +161,22 @@ vec3 wind(float shellHeight){
 }
 
 void main(){
-  textureCoordinates=uv;
+  float rotationSpeed=.1;
+  vec3 rotation=vec3(0.,1.,0.);
+  float angle=mod(time*rotationSpeed,PI/2.);
+  
+  float rotatedX=fract(uv.x+(time*rotationSpeed));
+  float rotatedY=uv.y;
+  vec2 rotatedUVs=vec2(rotatedX,rotatedY);
+  // vec3 rotatedNormals=rotate3D(normal,rotation,angle);
+  vec3 rotatedPosition=position;// rotate3D(position,rotation,angle);
+  
+  textureCoordinates=rotatedUVs;
   normals=normal;
   
   float shellHeight=shellIndex/shellCount;
   float extrusionScalar=shellHeight*shellLength;
-  vec3 extrudedPosition=position+normal*extrusionScalar;
-  
+  vec3 extrudedPosition=rotatedPosition+normal*extrusionScalar;
   vec3 windDisplacedPosition=extrudedPosition+wind(shellHeight);
   
   vec4 modelViewPosition=modelViewMatrix*vec4(windDisplacedPosition,1.);// Transform extruded position to view space

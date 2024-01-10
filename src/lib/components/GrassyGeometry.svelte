@@ -62,7 +62,7 @@
 </script>
 
 {#each Array(properties.shellCount) as _, shellIndex}
-	<T.Mesh rotation.y={delta * rotationSpeed} rotation.z={Math.PI / 12}>
+	<T.Mesh rotation.y={delta * 0}>
 		<T.SphereGeometry />
 		<T.ShaderMaterial
 			{fragmentShader}
